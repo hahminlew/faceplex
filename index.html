@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars.">
+  <meta name="keywords" content="full-duplex, speech generation, facial motion generation, talking head, conversational avatars, flow matching, streaming, online generation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Open Graph / Twitter card -->
+  <meta property="og:title" content="FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars">
+  <meta property="og:description" content="A unified streaming framework that jointly generates speech and facial motion for conversational avatars.">
+  <meta property="og:url" content="https://hahminlew.github.io/faceplex/">
+  <meta property="og:image" content="https://hahminlew.github.io/faceplex/static/images/architecture.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars">
+  <meta name="twitter:description" content="A unified streaming framework that jointly generates speech and facial motion for conversational avatars.">
+  <meta name="twitter:image" content="https://hahminlew.github.io/faceplex/static/images/architecture.png">
+
+  <title>FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars</title>
+
+  <link rel="icon" href="static/images/github.svg">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <script src="static/js/jquery.min.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       Top navbar (Home + More Research dropdown)
+       ============================================================ -->
+  <nav class="navbar" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </a>
+    </div>
+    <div class="navbar-menu">
+      <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+        <a class="navbar-item" href="https://hahminlew.github.io">
+          <span class="icon"><i class="fas fa-home"></i></span>
+        </a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">More Research</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="https://hahminlew.github.io/geoavatar/">GeoAvatar</a>
+            <a class="navbar-item" href="https://hahminlew.github.io/changer/">CHANGER</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       Sticky in-page navigation
+       ============================================================ -->
+  <nav class="faceplex-nav" role="navigation" aria-label="section navigation">
+    <div class="faceplex-nav-inner">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#quant">Quantitative</a>
+      <a href="#word">Word-Level Lip-Sync</a>
+      <a href="#topk">Qualitative Comparisons</a>
+      <a href="#sessions">Full-Duplex Sessions</a>
+      <a href="#application">Application</a>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       Hero / Title
+       ============================================================ -->
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+
+            <h1 class="title is-2 publication-title">
+              <span class="faceplex-title">FacePlex</span>:
+              Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars
+            </h1>
+
+            <div class="is-size-5 publication-authors" style="margin-top: 0.6rem;">
+              <span class="author-block">
+                <a href="https://binhaim.github.io/" target="_blank">Habin Lim</a><sup>1*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://github.com/JH-LEE-KR" target="_blank">Jae-Ho Lee</a><sup>1*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://hahminlew.github.io/" target="_blank">Hah Min Lew</a><sup>1*</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://scholar.google.co.kr/citations?user=oV7PzVAAAAAJ&hl" target="_blank">Ji-Su Kang</a><sup>2</sup>,
+              </span>
+              <span class="author-block">
+                <a href="https://vgi.korea.ac.kr/" target="_blank">Gyeong-Moon Park</a><sup>1</sup>
+              </span>
+            </div>
+
+            <div class="is-size-6 has-text-centered"
+                 style="margin-top: 0.25rem; margin-bottom: 0.25rem; color: #666;">
+              * equal contribution
+            </div>
+
+            <div class="is-size-5 publication-authors">
+              <span class="author-block"><sup>1</sup>Korea University,</span>
+              <span class="author-block"><sup>2</sup>Klleon</span>
+            </div>
+
+            <div class="is-size-5 publication-authors logo-row">
+              <img src="static/images/korea_univ.png" alt="Korea University Logo" />
+              <img src="static/images/klleon_logo.png" alt="Klleon Logo" />
+            </div>
+
+            <div class="is-size-5 publication-authors" style="margin-top: 0.4rem;">
+              <strong>Under review</strong>
+            </div>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Paper PDF -->
+                <span class="link-block">
+                  <a href="" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                    <span>Paper</span>
+                  </a>
+                </span>
+                <!-- arXiv -->
+                <span class="link-block">
+                  <a href="" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="ai ai-arxiv"></i></span>
+                    <span>arXiv</span>
+                  </a>
+                </span>
+                <!-- Code -->
+                <span class="link-block">
+                  <a href="" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fab fa-github"></i></span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                <!-- Data -->
+                <span class="link-block">
+                  <a href="" target="_blank"
+                     class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon"><i class="fa fa-database"></i></span>
+                    <span>Data</span>
+                  </a>
+                </span>
+              </div>
+            </div>
+
+            <div class="legend-row" style="margin-top: 0.6rem;">
+              <span class="streaming-pill is-cyan">Full-Duplex Streaming</span>
+              <span class="streaming-pill is-blue">Joint Speech &amp; Motion</span>
+              <span class="streaming-pill is-amber">Rolling Flow Matching</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Teaser placeholder (user replaces with their teaser figure / video)
+       ============================================================ -->
+  <section class="hero teaser">
+    <div class="container is-max-desktop">
+      <div class="hero-body">
+        <!-- Replace this block with the teaser video or image -->
+        <div class="figure-block">
+          <img src="static/images/teaser.png" alt="FacePlex Scenario">
+        </div>
+        <h2 class="subtitle has-text-centered" style="margin-top: 1.25rem;">
+          <strong>FacePlex</strong> jointly generates <strong>speech audio</strong> and <strong>facial motion</strong>
+          token-by-token in a single streaming pass, enabling face-to-face conversational avatars that
+          listen, think, and speak simultaneously.
+        </h2>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Abstract
+       ============================================================ -->
+  <section class="section hero is-light" id="abstract">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-four-fifths">
+          <h2 class="title is-3"><span class="section-title-accent">Abstract</span></h2>
+          <div class="content has-text-justified">
+            <p>
+              Natural face-to-face conversation requires real-time speech generation together with
+              synchronized facial motion. Existing systems only partially address this problem:
+              speech-only full-duplex models can generate speech in real time but do not produce
+              facial motion, while audio-driven facial motion models animate a face from already
+              available audio rather than jointly generating speech and motion online.
+            </p>
+            <p>
+              To bridge this gap, we first formalize <strong>full-duplex joint speech-facial motion
+              generation</strong>, where speech tokens and facial motion tokens are produced together
+              every step. Building on this formulation, we propose <strong>FacePlex</strong>, a unified
+              streaming framework with two key components. First, <strong>Rolling Flow Matching</strong>
+              adapts flow matching to online motion generation by committing new motion frames at each
+              streaming step. Second, <strong>Rolling Cross-Attention</strong> couples the streaming audio
+              queue with the motion queue, allowing speech and facial motion to condition each other as
+              generation progresses.
+            </p>
+            <p>
+              Through extensive experiments, ablation studies, and a user study, we show that
+              FacePlex enables full-duplex joint speech-facial motion generation under online streaming
+              constraints, while achieving stronger lip-sync quality and motion fidelity than
+              audio-driven facial motion baselines.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Method placeholder
+       ============================================================ -->
+  <section class="hero is-small" id="method">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3"><span class="section-title-accent">Method Overview</span></h2>
+        <p class="section-lead">
+          FacePlex is a single streaming model that produces speech tokens and facial motion tokens
+          jointly at every step. Two design choices make this possible:
+        </p>
+
+        <!-- Figure 1: streaming pipeline overview -->
+        <div class="figure-block">
+          <img src="static/images/architecture.png" alt="FacePlex streaming pipeline">
+          <p class="figure-caption">
+            <span class="figure-lead">Overview of <em>FacePlex</em>.</span>
+            At each training step, the LLM backbone, audio branch, and motion branch are jointly
+            trained, taking the user audio and previous model streams as input to produce a hidden
+            state and the next audio chunk. The audio chunk is temporarily enqueued so the motion
+            branch can update a rolling motion queue with a short predicted-speech look-ahead.
+            With <em>K</em>&nbsp;=&nbsp;4 queue slots, the front audio chunk and its aligned
+            facial-motion pair are emitted together, producing synchronized full-duplex avatar output.
+          </p>
+        </div>
+
+        <!-- Figure 2: detailed method figure -->
+        <div style="text-align: center; margin: 1.25rem 0 1.5rem;">
+            <img src="static/images/method.png" alt="FacePlex main method" style="width: 85%; max-width: 900px; display: block; margin: 0 auto;">
+        </div>
+
+        <!-- <div class="placeholder-card" style="margin: 1.25rem 0 1.5rem;">
+          <div class="placeholder-title">[ Main Method Figure Placeholder ]</div>
+          <p>Drop the main figure into <code>static/images/main_figure.png</code> and replace this block.</p>
+        </div> -->
+
+        <div class="columns is-centered">
+          <div class="column is-half">
+            <div class="box" style="background:#ecfeff; border:1px solid #a5f3fc;">
+              <h4 class="title is-5 has-text-centered" style="color:#0e7490;">
+                Rolling Flow Matching (RFM)
+              </h4>
+              <p class="has-text-justified" style="font-size:0.95rem;">
+                Standard flow matching denoises an entire fixed-length sequence in one shot, which is
+                incompatible with online streaming. <strong>Rolling Flow Matching</strong> recasts the
+                process as a sliding window: at every step a new motion frame is committed at the head of
+                the queue while the tail is still being refined. This yields a motion stream that is
+                emitted token-by-token alongside the speech stream, with the same low-latency cadence as
+                the audio backbone.
+              </p>
+            </div>
+          </div>
+          <div class="column is-half">
+            <div class="box" style="background:#eff6ff; border:1px solid #bfdbfe;">
+              <h4 class="title is-5 has-text-centered" style="color:#1d4ed8;">
+                Rolling Cross-Attention (RCA)
+              </h4>
+              <p class="has-text-justified" style="font-size:0.95rem;">
+                Speech and facial motion must condition each other &mdash; lips depend on phonemes, and
+                head/jaw motion shapes spectral content. <strong>Rolling Cross-Attention</strong> couples
+                the streaming audio queue with the motion queue so that, at each step, the two
+                modalities exchange information over a bounded local window. The model therefore stays
+                causal and online while generating tightly synchronized speech and motion.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Section: Quantitative comparisons (main results table)
+       ============================================================ -->
+  <section class="section hero is-light" id="quant">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3"><span class="section-title-accent">Quantitative Comparisons</span></h2>
+      <p class="section-lead">
+        Main comparison against representative full-duplex speech models
+        (<em>Moshi</em>, <em>Freeze-Omni</em>, <em>PersonaPlex</em>) and audio-driven facial motion models
+        (<em>ARTalk</em>, <em>DualTalk</em>, <em>UniLS</em>). FacePlex is the only method that produces
+        <strong>full-duplex speech</strong> and <strong>facial motion</strong> jointly within a single
+        streaming forward pass.
+      </p>
+
+      <div class="results-table-wrap">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th rowspan="2">Method</th>
+              <th colspan="2">Capability</th>
+              <th colspan="4">Full-Duplex Speech</th>
+              <th colspan="6">Facial Motion</th>
+            </tr>
+            <tr>
+              <th>FDS</th>
+              <th>M</th>
+              <th>Pause&nbsp;TOR&nbsp;↓</th>
+              <th>BC&nbsp;Freq.&nbsp;↑</th>
+              <th>Turn&nbsp;Lat.&nbsp;↓</th>
+              <th>Intr.&nbsp;Lat.&nbsp;↓</th>
+              <th>PLRS&nbsp;↑</th>
+              <th>S-LVE&nbsp;↓</th>
+              <th>S-MHD&nbsp;↓</th>
+              <th>S-FDD&nbsp;↓</th>
+              <th>L-FDD&nbsp;↓</th>
+              <th>L-PFID&nbsp;↓</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Full-duplex speech-only models -->
+            <tr>
+              <td class="method">Moshi</td>
+              <td class="cap-yes">✓</td>
+              <td class="cap-no">✗</td>
+              <td>0.990</td>
+              <td>0.001</td>
+              <td>0.283</td>
+              <td class="best">0.258</td>
+              <td colspan="6" rowspan="3" class="na">N/A</td>
+            </tr>
+            <tr>
+              <td class="method">Freeze-Omni</td>
+              <td class="cap-yes">✓</td>
+              <td class="cap-no">✗</td>
+              <td>0.700</td>
+              <td>0.002</td>
+              <td>0.955</td>
+              <td>1.364</td>
+            </tr>
+            <tr class="end-of-group">
+              <td class="method">PersonaPlex</td>
+              <td class="cap-yes">✓</td>
+              <td class="cap-no">✗</td>
+              <td>0.587</td>
+              <td>0.025</td>
+              <td>0.078</td>
+              <td>0.427</td>
+            </tr>
+
+            <!-- Audio-driven facial motion models -->
+            <tr>
+              <td class="method">ARTalk</td>
+              <td class="cap-no">✗</td>
+              <td class="cap-yes">✓</td>
+              <td colspan="4" rowspan="3" class="na">N/A</td>
+              <td>0.186</td>
+              <td>10.318</td>
+              <td>2.325</td>
+              <td>27.254</td>
+              <td>27.368</td>
+              <td>0.109</td>
+            </tr>
+            <tr>
+              <td class="method">DualTalk</td>
+              <td class="cap-no">✗</td>
+              <td class="cap-yes">✓</td>
+              <td>0.208</td>
+              <td>15.364</td>
+              <td>3.406</td>
+              <td>27.272</td>
+              <td>28.481</td>
+              <td>0.110</td>
+            </tr>
+            <tr class="end-of-group">
+              <td class="method">UniLS</td>
+              <td class="cap-no">✗</td>
+              <td class="cap-yes">✓</td>
+              <td>0.166</td>
+              <td>16.138</td>
+              <td>3.761</td>
+              <td>34.432</td>
+              <td>36.250</td>
+              <td>0.044</td>
+            </tr>
+
+            <!-- FacePlex (Ours) -->
+            <tr class="ours">
+              <td class="method">FacePlex <span class="ours-tag">Ours</span></td>
+              <td class="cap-yes">✓</td>
+              <td class="cap-yes">✓</td>
+              <td class="best">0.584</td>
+              <td class="best">0.028</td>
+              <td class="best">0.078</td>
+              <td class="second">0.399</td>
+              <td class="best">0.239</td>
+              <td class="best">7.896</td>
+              <td class="best">1.784</td>
+              <td class="best">24.629</td>
+              <td class="best">24.567</td>
+              <td class="best">0.031</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="figure-caption" style="margin-top: 1rem;">
+        <span class="figure-lead">Main comparison.</span>
+        <strong class="best-key">Bold</strong> marks the best result, <span class="second-key">underline</span> the second-best.
+        <strong>FDS</strong>: full-duplex speech support; <strong>M</strong>: facial motion generation.
+        Speech-side metrics cover pause handling (<em>Pause TOR</em>), backchanneling (<em>BC Freq.</em>, where BC = backchannel),
+        turn-taking latency (<em>Turn Lat.</em>), and interruption latency (<em>Intr. Lat.</em>).
+        <strong>PLRS</strong> measures audio–motion synchronization;
+        <strong>S</strong>/<strong>L</strong> denote speaking and listening intervals.
+        <strong>LVE</strong>, <strong>MHD</strong>, <strong>FDD</strong>, and <strong>P-FID</strong> are
+        Lip Vertex Error, Mean Head Distance, Upper-Face Dynamics Deviation,
+        and Pose Fréchet Inception Distance, respectively.
+        <strong>N/A</strong> indicates an unsupported capability or inapplicable metric.
+      </p>
+
+      <!-- User study sub-section -->
+      <h3 class="title is-4" style="margin-top: 2.75rem; color:#0f172a;">User Study</h3>
+      <p class="section-lead">
+        We further conducted a human evaluation with <strong>25 participants</strong>.
+        Each participant watched <strong>5 conversation sessions</strong>; for every session, four videos
+        generated from the <em>same input</em> by ARTalk, DualTalk, UniLS, and FacePlex were shown with
+        model identities hidden and order counterbalanced. Participants rated each video on a 1&ndash;5 MOS
+        scale across four axes: <em>Lip Synchronization (Lip Sync)</em>, <em>Facial Expression &amp; Speech Natural
+        Coherence (Natural &amp; Coherence)</em>, <em>Conversational Interaction (Interaction)</em>, and <em>Overall Quality (MOS)</em>.
+        FacePlex receives the highest mean rating on every axis.
+      </p>
+
+      <div class="results-table-wrap is-compact">
+        <table class="results-table is-compact">
+          <thead>
+            <tr>
+              <th>Method</th>
+              <th>Lip Sync ↑</th>
+              <th>Natural &amp; Coherence ↑</th>
+              <th>Interaction ↑</th>
+              <th>MOS ↑</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="method">ARTalk</td>
+              <td>2.080</td>
+              <td>1.864</td>
+              <td>2.832</td>
+              <td>2.240</td>
+            </tr>
+            <tr>
+              <td class="method">DualTalk</td>
+              <td>3.000</td>
+              <td>2.888</td>
+              <td>3.360</td>
+              <td>3.080</td>
+            </tr>
+            <tr class="end-of-group">
+              <td class="method">UniLS</td>
+              <td>2.776</td>
+              <td>2.816</td>
+              <td>3.344</td>
+              <td>2.992</td>
+            </tr>
+            <tr class="ours">
+              <td class="method">FacePlex <span class="ours-tag">Ours</span></td>
+              <td class="best">3.592</td>
+              <td class="best">3.624</td>
+              <td class="best">3.920</td>
+              <td class="best">3.736</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="figure-caption" style="margin-top: 0.85rem;">
+        <span class="figure-lead">User study results.</span>
+        Mean rater score on a 1&ndash;5 scale (higher is better) across four perceptual axes.
+        <strong class="best-key">Bold</strong> = best; FacePlex wins every axis, with the largest absolute
+        gain on Naturalness &amp; Coherence and Lip Sync.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Section: Word-level lip-sync comparisons (per-keyword carousel)
+       ============================================================ -->
+  <section class="hero is-small" id="word">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3"><span class="section-title-accent">Word-Level Lip-Sync Comparisons</span></h2>
+        <p class="section-lead">
+          For each keyword we render the same moment from all five methods side-by-side.
+          FacePlex tracks viseme transitions tightly without lagging or smearing.
+          <em>(Click any video to enable audio.)</em>
+        </p>
+
+        <div class="legend-row" style="margin-bottom: 1.0rem;">
+          <span class="chip"><span class="swatch gt"></span>GT &mdash; Ground Truth</span>
+          <span class="chip"><span class="swatch base"></span>Audio-Driven Baselines</span>
+          <span class="chip"><span class="swatch ours"></span>FacePlex (Ours)</span>
+        </div>
+
+        <div class="carousel results-carousel">
+
+          <!-- Keyword: always -->
+          <div class="item">
+            <div class="model-strip">
+              <div class="model-strip-labels">
+                <span class="is-gt">GT</span>
+                <span>ARTalk</span>
+                <span>DualTalk</span>
+                <span>UniLS</span>
+                <span class="is-ours">FacePlex (Ours)</span>
+              </div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/word/always.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Keyword: <span class="keyword">always</span></p>
+            </div>
+          </div>
+
+          <!-- Keyword: because -->
+          <div class="item">
+            <div class="model-strip">
+              <div class="model-strip-labels">
+                <span class="is-gt">GT</span>
+                <span>ARTalk</span>
+                <span>DualTalk</span>
+                <span>UniLS</span>
+                <span class="is-ours">FacePlex (Ours)</span>
+              </div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/word/because.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Keyword: <span class="keyword">because</span></p>
+            </div>
+          </div>
+
+          <!-- Keyword: believe -->
+          <div class="item">
+            <div class="model-strip">
+              <div class="model-strip-labels">
+                <span class="is-gt">GT</span>
+                <span>ARTalk</span>
+                <span>DualTalk</span>
+                <span>UniLS</span>
+                <span class="is-ours">FacePlex (Ours)</span>
+              </div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/word/believe.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Keyword: <span class="keyword">believe</span></p>
+            </div>
+          </div>
+
+          <!-- Keyword: better -->
+          <div class="item">
+            <div class="model-strip">
+              <div class="model-strip-labels">
+                <span class="is-gt">GT</span>
+                <span>ARTalk</span>
+                <span>DualTalk</span>
+                <span>UniLS</span>
+                <span class="is-ours">FacePlex (Ours)</span>
+              </div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/word/better.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Keyword: <span class="keyword">better</span></p>
+            </div>
+          </div>
+
+          <!-- Keyword: minutes -->
+          <div class="item">
+            <div class="model-strip">
+              <div class="model-strip-labels">
+                <span class="is-gt">GT</span>
+                <span>ARTalk</span>
+                <span>DualTalk</span>
+                <span>UniLS</span>
+                <span class="is-ours">FacePlex (Ours)</span>
+              </div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/word/minutes.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Keyword: <span class="keyword">minutes</span></p>
+            </div>
+          </div>
+
+          <!-- Keyword: question -->
+          <div class="item">
+            <div class="model-strip">
+              <div class="model-strip-labels">
+                <span class="is-gt">GT</span>
+                <span>ARTalk</span>
+                <span>DualTalk</span>
+                <span>UniLS</span>
+                <span class="is-ours">FacePlex (Ours)</span>
+              </div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/word/question.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Keyword: <span class="keyword">question</span></p>
+            </div>
+          </div>
+
+          <!-- Keyword: understand -->
+          <div class="item">
+            <div class="model-strip">
+              <div class="model-strip-labels">
+                <span class="is-gt">GT</span>
+                <span>ARTalk</span>
+                <span>DualTalk</span>
+                <span>UniLS</span>
+                <span class="is-ours">FacePlex (Ours)</span>
+              </div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/word/understand.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Keyword: <span class="keyword">understand</span></p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Section: Pairwise comparisons
+       ============================================================ -->
+  <section class="hero is-small" id="topk">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3"><span class="section-title-accent">Pairwise Comparisons vs.&nbsp;Baselines</span></h2>
+        <p class="section-lead">
+          Ten utterances per baseline, rendered as side-by-side videos
+          (<strong>baseline on the left</strong>, <strong>FacePlex on the right</strong>).
+          Audio is identical across both panels &mdash; only the generated facial motion differs.
+        </p>
+
+        <!-- vs ARTalk -->
+        <h3 class="title is-4" style="margin-top: 1.5rem; color:#0f172a;">vs.&nbsp;ARTalk</h3>
+        <div class="carousel results-carousel">
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_039.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_041.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_046.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_049.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_050.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_057.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_059.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_084.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_089.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>ARTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_artalk/sample_096.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- vs DualTalk -->
+        <h3 class="title is-4" style="margin-top: 2.25rem; color:#0f172a;">vs.&nbsp;DualTalk</h3>
+        <div class="carousel results-carousel">
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_039.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_041.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_046.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_049.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_050.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_057.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_059.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_084.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_089.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>DualTalk</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_dualtalk/sample_096.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+
+        <!-- vs UniLS -->
+        <h3 class="title is-4" style="margin-top: 2.25rem; color:#0f172a;">vs.&nbsp;UniLS</h3>
+        <div class="carousel results-carousel">
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_039.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_041.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_046.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_049.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_050.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_057.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_059.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_084.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_089.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+          <div class="item">
+            <div class="pair-strip">
+              <div class="pair-strip-labels"><span>UniLS</span><span class="is-ours">FacePlex (Ours)</span></div>
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/pair_unils/sample_096.mp4" type="video/mp4">
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Section: Full-duplex conversational sessions
+       ============================================================ -->
+  <section class="section hero is-light" id="sessions">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3"><span class="section-title-accent">Full-Duplex Conversational Session</span></h2>
+      <p class="section-lead">
+        End-to-end conversational sessions in which two avatars communicate.
+        Both speakers' speech and facial motion are generated <em>jointly and online</em> &mdash;
+        no audio is provided to the model in advance while others provided pre-given full-utterance audios. Each strip below shows all four methods
+        rendered for the same speaker turn so reviewers can compare lip-sync, prosody-driven
+        expression, and listener behavior on identical content.
+      </p>
+
+      <div class="legend-row" style="margin-bottom: 1.25rem;">
+        <span class="chip"><span class="swatch gt"></span>GT</span>
+        <span class="chip"><span class="swatch base"></span>ARTalk &middot; DualTalk &middot; UniLS</span>
+        <span class="chip"><span class="swatch ours"></span>FacePlex (Ours)</span>
+      </div>
+
+      <div class="session-card">
+        <!-- <div class="session-title">
+          <span class="session-num">1</span> Session
+        </div> -->
+        <div class="speaker-block">
+          <div class="speaker-label"><span class="badge">A</span> Speaker A</div>
+          <div class="model-strip">
+            <div class="model-strip-labels">
+              <span class="is-gt">GT</span>
+              <span>ARTalk</span>
+              <span>DualTalk</span>
+              <span>UniLS</span>
+              <span class="is-ours">FacePlex (Ours)</span>
+            </div>
+            <video autoplay controls muted loop playsinline preload="metadata">
+              <source src="static/videos/session/s1_a.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+        <div class="speaker-block">
+          <div class="speaker-label"><span class="badge is-b">B</span> Speaker B</div>
+          <div class="model-strip">
+            <div class="model-strip-labels">
+              <span class="is-gt">GT</span>
+              <span>ARTalk</span>
+              <span>DualTalk</span>
+              <span>UniLS</span>
+              <span class="is-ours">FacePlex (Ours)</span>
+            </div>
+            <video autoplay controls muted loop playsinline preload="metadata">
+              <source src="static/videos/session/s1_b.mp4" type="video/mp4">
+            </video>
+          </div>
+        </div>
+      </div>
+
+      <p class="tiny-note">
+        Full-session videos play the entire turn for each speaker (~10 seconds).
+        Click a video to unmute and verify joint speech-motion synchrony.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Application: Gaussian Avatar integration
+       ============================================================ -->
+  <section class="hero is-small" id="application">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <h2 class="title is-3"><span class="section-title-accent">Gaussian Avatar Integration</span></h2>
+        <p class="section-lead">
+          Because FacePlex emits speech and facial motion online, its outputs can naturally drive any
+          downstream avatar renderer. Here we plug FacePlex into a <strong>conventional, off-the-shelf
+          Gaussian Splatting head avatar</strong> &mdash; the renderer is used <em>exactly as released
+          by its authors</em>, with no fine-tuning, no architectural change, and no FacePlex-specific
+          adaptation. All clips below are <strong>FacePlex outputs rendered with that pretrained GS
+          avatar</strong>, demonstrating that our streaming pipeline plugs directly into existing
+          photorealistic head avatars.
+        </p>
+
+        <div class="legend-row" style="margin-bottom: 1.0rem;">
+          <span class="streaming-pill is-cyan">FacePlex motion + audio</span>
+          <span class="streaming-pill is-blue">→ off-the-shelf GS head avatar</span>
+          <span class="streaming-pill is-amber">photorealistic output</span>
+        </div>
+
+        <div class="disclaimer-box">
+          <span class="disclaimer-tag">Note</span>
+          The Gaussian Splatting head avatar is a <strong>pretrained, third-party renderer used as-is</strong>.
+          Any visual artifacts (texture flicker, view-dependent ghosting, hair or boundary glitches, etc.)
+          observed in the clips below are inherited from that <strong>conventional GS avatar model</strong>
+          &mdash; <strong>not</strong> from FacePlex. FacePlex contributes only the streaming speech and
+          facial-motion signal that drives the renderer; the rendering quality reflects the off-the-shelf
+          avatar, not our method.
+        </div>
+
+        <!-- Showcase reels -->
+        <h3 class="title is-5" style="margin-top: 1.75rem; color:#0f172a;">Showcase Reels</h3>
+        <p class="section-lead">
+          Each reel stacks five distinct conversational clips side-by-side, all rendered with the
+          Gaussian head avatar from FacePlex's streaming output (twenty examples in total).
+        </p>
+
+        <div class="carousel results-carousel">
+          <div class="item">
+            <div class="model-strip" style="max-width: 1280px;">
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/gsavatar/showcase_01.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Examples <span class="keyword">1&nbsp;–&nbsp;5</span></p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="model-strip" style="max-width: 1280px;">
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/gsavatar/showcase_02.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Examples <span class="keyword">6&nbsp;–&nbsp;10</span></p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="model-strip" style="max-width: 1280px;">
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/gsavatar/showcase_03.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Examples <span class="keyword">11&nbsp;–&nbsp;15</span></p>
+            </div>
+          </div>
+          <div class="item">
+            <div class="model-strip" style="max-width: 1280px;">
+              <video autoplay controls muted loop playsinline preload="metadata">
+                <source src="static/videos/gsavatar/showcase_04.mp4" type="video/mp4">
+              </video>
+              <p class="keyword-caption">Examples <span class="keyword">16&nbsp;–&nbsp;20</span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paired conversation -->
+        <h3 class="title is-5" style="margin-top: 2.25rem; color:#0f172a;">Paired Avatar Conversation</h3>
+        <p class="section-lead">
+          A complete two-speaker dialogue rendered with the Gaussian head avatar. Both speakers'
+          speech and facial motion are <em>jointly</em> generated by FacePlex in a single streaming
+          forward pass.
+        </p>
+
+        <div class="pair-strip">
+          <div class="pair-strip-labels">
+            <span>Speaker A</span>
+            <span>Speaker B</span>
+          </div>
+          <video autoplay controls muted loop playsinline preload="metadata">
+            <source src="static/videos/gsavatar/conversation.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <p class="tiny-note" style="margin-top: 0.85rem;">
+          Reminder: rendering artifacts above belong to the off-the-shelf GS avatar renderer, not to
+          FacePlex. FacePlex itself is unchanged across all results.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       BibTeX
+       ============================================================ -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title"><span class="section-title-accent">BibTeX</span></h2>
+<pre><code>@article{lim2026faceplex,
+  title   = {FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars},
+  author  = {Lim, Habin and Lee, Jae-Ho and Lew, Hah Min and Kang, Ji-Su and Park, Gyeong-Moon},
+  journal = {arXiv preprint},
+  year    = {2026}
+}</code></pre>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Footer
+       ============================================================ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <a class="icon-link" href="" target="_blank" rel="noopener" aria-label="Paper PDF">
+          <i class="fas fa-file-pdf"></i>
+        </a>
+        <a class="icon-link" href="" target="_blank" rel="noopener" aria-label="arXiv">
+          <i class="ai ai-arxiv"></i>
+        </a>
+        <a class="icon-link" href="" target="_blank" rel="noopener" aria-label="Code">
+          <i class="fab fa-github"></i>
+        </a>
+        <a class="icon-link" href="" target="_blank" rel="noopener" aria-label="Data">
+          <i class="fa fa-database"></i>
+        </a>
+      </div>
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              This page was built using the
+              <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank" rel="noopener">Academic Project Page Template</a>,
+              originally derived from the
+              <a href="https://nerfies.github.io" target="_blank" rel="noopener">Nerfies</a> project page,
+              with additional styling carried over from
+              <a href="https://summertight.github.io/TexAvatars/" target="_blank" rel="noopener">TexAvatars</a>.
+              Feel free to fork the source for your own project &mdash; a link back to this page is appreciated.
+              <br>
+              This website is licensed under a
+              <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener">Creative
+              Commons Attribution-ShareAlike 4.0 International License</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
