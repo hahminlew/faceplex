@@ -148,16 +148,33 @@ body {
   margin-top: 0.5rem;
 }
 
+/* keep each logo and its affiliation number together */
+.logo-item {
+  display: inline-flex;
+  align-items: flex-start;
+}
+
 .logo-row img {
   object-fit: contain;
 }
 
-.logo-row img:first-child {
-  height: 55px;
+/* Korea University logo size */
+.logo-item:first-child img {
+  height: 40px;
 }
 
-.logo-row img:last-child {
-  height: 55px;
+/* Klleon logo size */
+.logo-item:last-child img {
+  height: 25px;
+}
+
+/* fixed size so it stays a small superscript regardless of the row font-size */
+.logo-sup {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-left: 3px;
+  color: #555;
 }
 
 @media screen and (max-width: 768px) {
@@ -165,15 +182,19 @@ body {
       gap: 1rem;
   }
 
-  .logo-row img:first-child {
-      height: 42px;
-      margin-left: 0px;
-  }
-
-  .logo-row img:last-child {
+  /* Korea University logo size (mobile) */
+  .logo-item:first-child img {
       height: 42px;
   }
 
+  /* Klleon logo size (mobile) */
+  .logo-item:last-child img {
+      height: 42px;
+  }
+
+  .logo-sup {
+      font-size: 0.7rem;
+  }
 }
 
 .main-method {
