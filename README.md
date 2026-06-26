@@ -6,7 +6,7 @@ which accompanies the paper:
 **FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars.**
 
 [Habin Lim](https://binhaim.github.io)\*, [Jae-Ho Lee](https://github.com/JH-LEE-KR)\*, [Hah Min Lew](https://hahminlew.github.io)\*, Ji-Su Kang, [Gyeong-Moon Park](https://vgi.korea.ac.kr).
-*(\* equal contribution)*
+*(\* Equal contribution)*
 
 The page layout is built on top of the awesome [Nerfies](https://nerfies.github.io)
 template (via the [Academic Project Page Template](https://github.com/eliahuhorwitz/Academic-project-page-template)),
