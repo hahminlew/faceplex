@@ -366,6 +366,17 @@ body {
    Quantitative results table
    ============================================================ */
 
+/* Wide tables sit inside `.hero` sections, which are flex containers. Without
+   this, `.container` shrink-wraps to the table's min-width (920px) and pushes
+   the whole page wider than the screen on mobile, instead of letting the table
+   wrapper scroll. Forcing the container to fill its flex parent keeps the page
+   at viewport width and lets `.results-table-wrap` scroll inside its own box. */
+.section.hero > .container,
+.hero-body > .container {
+  width: 100%;
+  min-width: 0;
+}
+
 .results-table-wrap {
   margin: 1.25rem 0 0.5rem;
   overflow-x: auto;
@@ -519,6 +530,18 @@ body {
 
 .results-table.is-compact tbody td {
   padding: 0.6rem 0.55rem;
+}
+
+/* On phones, let the small user-study table shrink to fit instead of scrolling */
+@media screen and (max-width: 768px) {
+  .results-table.is-compact {
+    min-width: 0;
+  }
+  .results-table.is-compact th,
+  .results-table.is-compact td {
+    white-space: normal;
+    padding: 0.5rem 0.35rem;
+  }
 }
 
 .best-key {
