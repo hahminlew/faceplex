@@ -3,9 +3,9 @@
 Source code for the [FacePlex](https://hahminlew.github.io/faceplex/) project page,
 which accompanies the paper:
 
-**FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars.**
+**FacePlex: Toward Natural Full-Duplex Conversational Avatars.**
 
-[Habin Lim](https://binhaim.github.io)\*, [Jae-Ho Lee](https://github.com/JH-LEE-KR)\*, [Hah Min Lew](https://hahminlew.github.io)\*, Ji-Su Kang, [Gyeong-Moon Park](https://vgi.korea.ac.kr).
+[Habin Lim](https://binhaim.github.io)\*, [Hah Min Lew](https://hahminlew.github.io)\*, [Jae-Ho Lee](https://github.com/JH-LEE-KR)\*, Min-Jae Kim, Seungeun Lee, Ji-Su Kang, [Gyeong-Moon Park](https://vgi.korea.ac.kr).
 *(\* Equal contribution)*
 
 The page layout is built on top of the awesome [Nerfies](https://nerfies.github.io)
@@ -33,8 +33,8 @@ If you find FacePlex useful for your work, please cite:
 
 ```bibtex
 @article{lim2026faceplex,
-  title   = {FacePlex: Full-Duplex Joint Speech-Facial Motion Generation for Conversational Avatars},
-  author  = {Lim, Habin and Lee, Jae-Ho and Lew, Hah Min and Kang, Ji-Su and Park, Gyeong-Moon},
+  title   = {FacePlex: Toward Natural Full-Duplex Conversational Avatars},
+  author  = {Lim, Habin and Lew, Hah Min and Lee, Jae-Ho and Kim, Min-Jae and Lee, Seungeun and Kang, Ji-Su and Park, Gyeong-Moon},
   journal = {arXiv e-prints},
   pages   = {arXiv--2606},
   year    = {2026}

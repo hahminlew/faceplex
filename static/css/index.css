@@ -32,6 +32,13 @@ body {
   font-family: 'Google Sans', sans-serif;
 }
 
+.teaser-video {
+  width: 100%;
+  display: block;
+  border-radius: 10px;
+  background: #000;
+}
+
 
 .publication-title {
 }
@@ -331,6 +338,23 @@ body {
   margin-bottom: 1.25rem;
 }
 
+/* Rendering optimization list (Gaussian avatar section) */
+.render-opt-list {
+  margin: -0.5rem 0 1.25rem 1.25rem;
+  list-style: disc;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.render-opt-list li + li {
+  margin-top: 0.35rem;
+}
+
+.render-opt-list strong {
+  color: #0f172a;
+}
+
 /* Disclaimer / note callout */
 .disclaimer-box {
   margin: 1rem auto 1.25rem;
@@ -505,6 +529,18 @@ body {
   background: rgba(6, 182, 212, 0.08);
 }
 
+/* Main table: fewer columns, standard deviations shown as small trailing text */
+.results-table.is-main {
+  min-width: 720px;
+}
+
+.results-table .sd {
+  margin-left: 0.2rem;
+  font-size: 0.7rem;
+  font-weight: 400;
+  color: #64748b;
+}
+
 /* Compact variant for small tables (single-row header, e.g., user study) */
 .results-table-wrap.is-compact {
   max-width: 640px;
@@ -599,6 +635,13 @@ body {
     #f1f5f9 24px
   );
   font-size: 0.95rem;
+}
+
+.placeholder-card.is-video {
+  aspect-ratio: 16 / 9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .placeholder-card .placeholder-title {
