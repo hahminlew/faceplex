@@ -234,16 +234,16 @@
               generation and real-time avatar rendering. FacePlex jointly coordinates speech, facial motion, and
               Gaussian splatting rendering on a shared streaming timeline. To prepare facial motion for upcoming
               speech, FacePlex predicts a short speech continuation and uses its future hidden states through
-              <strong>late facial denoising</strong>, while continuously updating them as new user audio arrives
+              <strong>asymmetric conditioning and denoising</strong>, while continuously updating them as new user audio arrives
               without observing future user input. For dialogue-grounded non-verbal behavior, we construct
               <strong><em>SemReact</em></strong>, a dataset aligning dialogue context, reaction semantics, and
               facial motion, and introduce a <strong>semantic behavior router</strong> that guides continuous
               motion during both speaking and listening.
             </p>
             <p>
-              Extensive experiments show improved audio-visual synchronization and facial articulation under
-              streaming generation, natural dialogue-grounded non-verbal responses, and low-latency of 122&nbsp;ms
-              end-to-end avatar interaction.
+              Extensive experiments show improved audio-visual synchronization and facial articulation,
+              natural dialogue-grounded non-verbal responses, and low-latency of 122&nbsp;ms end-to-end avatar
+              interaction.
             </p>
           </div>
         </div>
